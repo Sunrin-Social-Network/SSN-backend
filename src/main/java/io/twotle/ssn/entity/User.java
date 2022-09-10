@@ -1,4 +1,4 @@
-package io.twotle.ssn.domain;
+package io.twotle.ssn.entity;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,10 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, columnDefinition = "varchar(255) default ''")
+    @Column(columnDefinition = "text")
+    private String introduce;
+
+    @Column( columnDefinition = "varchar(255) default 'https://cdn.jsdelivr.net/gh/2tle/staticfiles@master/profile.PNG'")
     private String profileUrl;
 
 }
