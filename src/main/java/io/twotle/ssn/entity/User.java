@@ -1,9 +1,6 @@
 package io.twotle.ssn.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -32,5 +29,13 @@ public class User {
 
     @Column( columnDefinition = "varchar(255) default 'https://cdn.jsdelivr.net/gh/2tle/staticfiles@master/profile.PNG'")
     private String profileUrl;
+
+    @Builder
+    public User(String email, String password, String username, String introduce) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.introduce = introduce;
+    }
 
 }
