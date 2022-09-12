@@ -13,9 +13,6 @@ public class SsnApplication {
         SpringApplication.run(SsnApplication.class, args);
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 
 }

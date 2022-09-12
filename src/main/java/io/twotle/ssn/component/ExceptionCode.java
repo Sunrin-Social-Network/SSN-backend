@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ExceptionCode {
+    ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, 1, "Already Registered"),
     DEFAULT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 0, "Something Error");
 
     private final HttpStatus status;

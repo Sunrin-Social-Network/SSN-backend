@@ -22,6 +22,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<ErrorResponseDTO> defaultErrorHandler(Exception e) {
+        e.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 new ErrorResponseDTO( 1000, e.getMessage())
         );
