@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(AuthController.class)
 @DisplayName("AuthController Test")
+@Rollback
 class AuthControllerTest {
     private MockMvc mvc;
 
@@ -54,7 +55,7 @@ class AuthControllerTest {
     }
 
     @Test
-    @DisplayName("POST /auth/new")
+    @DisplayName("POST /auth/new - Clear")
     void register() throws Exception {
         String obj = objectMapper.writeValueAsString(new RegisterDTO("21sunrin100@sunrint.hs.kr","user1111","name1"));
         ResultActions act = mvc.perform(
@@ -67,6 +68,22 @@ class AuthControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("result").value(true));
     }
+
+    @Test
+    @DisplayName("POST /auth/new - ValidationErr")
+    void registerValid() throws Exception {
+        String obj1 = objectMapper.writeValueAsString(new RegisterDTO("randomEmadfdil@sundfrint.hs.kr","user1d111","nam2dd2e1"));
+        ResultActions act1 = mvc.perform(
+                post("/auth/new")
+                        .content(obj1)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+        act1
+                .andExpect(status().isBadRequest()).andDo(print());
+    }
+
+
 
 
 

@@ -25,8 +25,26 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    final String[] PERMIT_URL_ARRAY = {
+            /* swagger v2 */
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            /* swagger v3 */
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            /* auth */
+            "/auth/new",
+            "/auth/local"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+
         return httpSecurity
                 .httpBasic().disable()
                 .csrf().disable()
@@ -34,8 +52,7 @@ public class SecurityConfig {
                 .headers().frameOptions().disable().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/auth/new").permitAll()
-                .antMatchers("/auth/local").permitAll()
+                .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().authenticated().and()
                 .build();
     }
