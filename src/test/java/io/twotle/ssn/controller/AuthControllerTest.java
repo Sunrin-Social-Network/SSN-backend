@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -67,6 +68,34 @@ class AuthControllerTest {
         act.andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("result").value(true));
+    }
+
+    @Test
+    @DisplayName("GET email exist")
+    void emailExists() throws Exception {
+        //String obj = objectMapper.writeValueAsString(new RegisterDTO("21sunrin100@sunrint.hs.kr","user1111","name1"));
+        ResultActions act = mvc.perform(
+                get("/auth/by-email/21sunrint000@sunrint.hs.kr/exists")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+        act.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("exist").value(false));
+    }
+
+    @Test
+    @DisplayName("GET username exist")
+    void usernameExists() throws Exception {
+        //String obj = objectMapper.writeValueAsString(new RegisterDTO("21sunrin100@sunrint.hs.kr","user1111","name1"));
+        ResultActions act = mvc.perform(
+                get("/auth/by-username/asdfasdfasfew/exists")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+        act.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("exist").value(false));
     }
 
     @Test
