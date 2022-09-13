@@ -23,7 +23,7 @@ public class AuthService {
     private PasswordEncoder bCryptPasswordEncoder;
 
     public User signUp(RegisterDTO registerDTO) throws CustomException{
-        if(this.isEmailAvaliable(registerDTO.getEmail())) {
+        if(this.isEmailAvailable(registerDTO.getEmail()) && this.isUsernameAvailable(registerDTO.getUsername())) {
             throw new CustomException(ExceptionCode.ALREADY_REGISTERED);
         }
         User newUser = registerDTO.toUserEntity();
@@ -31,13 +31,17 @@ public class AuthService {
         return this.userRepository.save(newUser);
     }
 
-    public boolean isEmailAvailable(EmailDTO emailDTO) {
-        Optional<User> byEmail = this.userRepository.findByEmail(emailDTO.getEmail());
-        return !byEmail.isEmpty();
-    }
-    private boolean isEmailAvaliable(String email) {
+    public boolean isEmailAvailable(String email) {
         Optional<User> byEmail = this.userRepository.findByEmail(email);
         return !byEmail.isEmpty();
     }
+
+    public boolean isUsernameAvailable(String username) {
+        Optional<User> byUsername = this.userRepository.findByUsername(username);
+        return !byUsername.isEmpty();
+    }
+
+
+
 
 }

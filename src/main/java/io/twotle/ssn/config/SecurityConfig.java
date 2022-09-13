@@ -39,7 +39,9 @@ public class SecurityConfig {
             "/swagger-ui/**",
             /* auth */
             "/auth/new",
-            "/auth/local"
+            "/auth/local",
+            "/auth/by-email/{email}/exists",
+            "/auth/by-username/{username}/exists"
     };
 
     @Bean
