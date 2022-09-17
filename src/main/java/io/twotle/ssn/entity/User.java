@@ -2,6 +2,7 @@ package io.twotle.ssn.entity;
 
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @DynamicInsert
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,18 +26,24 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(columnDefinition = "text")
-    private String introduce;
 
     @Column( columnDefinition = "varchar(255) default 'https://cdn.jsdelivr.net/gh/2tle/staticfiles@master/profile.PNG'")
     private String profileUrl;
 
     @Builder
-    public User(String email, String password, String username, String introduce) {
+    public User(String email, String password, String username ) {
         this.email = email;
         this.password = password;
         this.username = username;
-        this.introduce = introduce;
+    }
+
+    public User hashPassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
+        return this;
+    }
+
+    public boolean checkPassword(String plainPassword, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(plainPassword, this.password);
     }
 
 }
